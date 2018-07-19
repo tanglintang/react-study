@@ -65,6 +65,14 @@ this.setState(prevState => {
     }
 })
 ```
+- 携带回调函数
+```js
+this.setState({
+    visible: true
+}, () => {
+    this.props.form.resetFields()
+})
+```
 
 
 ## jsx 模板引擎
@@ -140,8 +148,6 @@ destroyEntity () {
 - lodash    一个现代JavaScript实用程序库，提供模块化，性能和附加功能
 - lokijs    内存数据库
 - moment    日期处理类库
-
-# 阮一峰-react-demo
 
 ## 包含关系-嵌套传递子组件 children
 > 如同 vue-slot 
@@ -234,5 +240,3 @@ handleChange (event) {
         }, 100)
     }
 ```
-
-## 数据请求
