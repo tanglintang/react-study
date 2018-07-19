@@ -136,10 +136,103 @@ destroyEntity () {
 }
 ```
 
-## 事件处理函数的 this 绑定
-
-
 ## 业务实现常用 npm 包
 - lodash    一个现代JavaScript实用程序库，提供模块化，性能和附加功能
 - lokijs    内存数据库
 - moment    日期处理类库
+
+# 阮一峰-react-demo
+
+## 包含关系-嵌套传递子组件 children
+> 如同 vue-slot 
+```js
+class App extends Component {
+    render () {
+        return (
+            <div className="App">
+                <NoteList>
+                    <span>hello</span>
+                    <span>world</span>
+                </NoteList>
+            </div>
+        )
+    }
+}
+```
+```js
+class NoteList extends Component {
+    render () {
+        return (
+            <ul>{ this.props.children.map((child, index) => <li key={index}>{ child }</li>) }</ul>
+        )
+    }
+}
+```
+## propTypes 参数类型检测
+> PropTypes 包含一整套验证器，可用于确保你接收的数据是有效的
+
+`yarn add prop-types`
+
+```js
+MyTitle.propTypes = {
+    title: PropTypes.string
+}
+```
+## refs
+> 下面是几个适合使用 refs 的情况：
+>> 处理焦点、文本选择或媒体控制。
+
+>> 触发强制动画。
+
+>> 集成第三方 DOM 库
+```js
+<input type="text" ref="myTextInput"/>
+<input type="button" value="focus the text input" onClick={ this.handleClick.bind(this) }/>
+
+handleClick () {
+    this.refs.myTextInput.focus()
+}
+```
+
+## 双向绑定 onChange
+> vue - v-model， 在 react 中只有单向绑定
+
+```js
+<div className="App">
+    <div>
+        <input type="text" value={value} onChange={ this.handleChange.bind(this) } />
+    </div>
+    <p>{ value }</p>
+</div>
+
+handleChange (event) {
+    const value = event.target.value
+    this.setState({
+        value
+    })
+}
+```
+
+## style 和 生命周期
+```js
+<div style={{ opacity: this.state.opacity }}>
+    Hello { this.props.name }
+</div>
+
+
+    // 生命周期 在组件被装配后立即调用
+    componentDidMount () {
+        setInterval(() => {
+            let opacity = this.state.opacity
+            opacity -= 0.2
+            if (opacity < 0.1) {
+                opacity = 1
+            }
+            this.setState({
+                opacity
+            })
+        }, 100)
+    }
+```
+
+## 数据请求
