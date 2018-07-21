@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 // 对 react ui =》 阿里的 antd 部分引用
-import { Table, Pagination, Input, Row, Button, Modal, Form } from 'antd'
+import { Table, Pagination, Input, Row, Button, Modal, Form, message } from 'antd'
 import 'antd/dist/antd.css'
 import './App.css'
+import axios from 'axios'
 
 const { Search } = Input
 const FormItem = Form.Item
@@ -96,29 +97,47 @@ class App extends Component {
 
     handleOk = () => {
         this.props.form.validateFieldsAndScroll((err, value) => {
-            const id = this.state.id
+            console.log(value)
+            // const id = this.state.id
             if (!err) {
-                value.id = id ? id : Date.parse(new Date())
-                const _users = [...this.state.users, value]
-                if (id) {
-                    this.state.users.forEach((data, index) => {
-                        if (data.id === id) {
-                            this.state.users[index] = value
-                        }
-                    })
-                } else {
-                    this.state.users = _users
+                // value.id = id ? id : Date.parse(new Date())
+                // const _users = [...this.state.users, value]
+                // if (id) {
+                //     this.state.users.forEach((data, index) => {
+                //         if (data.id === id) {
+                //             this.state.users[index] = value
+                //         }
+                //     })
+                // } else {
+                //     this.state.users = _users
+                // }
+                let data = {
+                    name: value.name,
+                    age: value.age,
+                    address: value.address
                 }
-                this.setState({
-                    visible: false,
+                axios.post('http://127.0.0.1:3006/user', data).then(msg => {
+                    console.log(msg)
+                    this.setState({
+                        visible: false,
+                    })
+                    message.success('添加成功')
                 })
             }
         })
-      }
+    }
     
     handleCancel = (e) => {
         this.setState({
             visible: false,
+        })
+    }
+
+    searchUser(event) {
+        // console.log(event.target.value)
+        axios.get('http://localhost:3006/users')
+        .then(data => {
+          console.log(data)
         })
     }
 
@@ -140,7 +159,7 @@ class App extends Component {
         return (
             <div className="App">
                 <Row>
-                    <Search style={{ width: 300 }}></Search>
+                    <Search style={{ width: 300 }} onChange={ this.searchUser.bind(this) }></Search>
                     <Button type="primary" style={{ marginLeft: 20 }} onClick={ () => this.showModal('add') }>添加用户</Button>
                 </Row>
                 <Row style={{ paddingTop: 20 }}>

@@ -286,3 +286,73 @@ columns = [
 ```js
 <Table dataSource={ this.state.users } columns={ this.columns } rowKey={ row => row.id } bordered pagination={false}/>
 ```
+
+## 引入后端 Koa
+> 全家桶： koa + koa-router + koa-cors
+
+`server/app.js`
+
+    全栈 FullStack
+    react SPA 单页应用 端口 3000 用户界面
+    koa 不要界面了 端口 3006 后端提供 api
+    结合：前端做页面及路由，后端提供数据来源
+
+**跨域**
+
+    网站 A 和 网站 B 通信
+    前端 3000--------后端 3006 通信
+
+
+### 中间件 middleware
+> 为一种或多种应用程序提供容器，同时为应用程序提供相关服务。web中间件用于提供系统软件和应用软件之间的连接，以便于软件各部件之间的沟通，其可以为一种或多种应用程序提供容器。
+router、cors
+
+### 引入 koa 路由
+`const router = require('koa-router')()`
+
+`app.use(router.routes())`
+
+### cors 解决跨域问题
+
+    localhost/:1 Failed to load http://localhost:3006/users: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:3000' is therefore not allowed access.
+
+`yarn add koa-cors`
+
+**配置**
+```js
+app.use(cors({
+    origin: 'http://localhost:3000',
+    exposeHeaders: ['WWW-Authenticate', 'Server-Authenticate'],
+    maxAge: 5,
+    credentials: true,
+    allowMethods: ['GET', 'POST'],
+    allHeaders: ['Content-Type', 'Authorization', 'Accept']
+}))
+```
+
+### node 访问 mysql
+`$ yarn add sequelize`
+`$ yarn add mysql2`
+`$ yarn add koa-body`
+
+- ORM       
+把关系数据库的表结构映射到对象上
+> Node 的 ORM 框架 Sequelize, 读写的都是 JavaScript 对象
+
+- 创建 sequelize 实例，配置
+```js
+const sequelize = new Sequelize('antd', 'root', '', {
+    host: 'localhost',
+    dialect: 'mysql',
+    operatorsAliases: true,
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    },
+    define: {
+        timestamps: false,
+    }
+})
+```
