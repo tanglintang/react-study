@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Recommend from './recommend/Recommend'
 import Ranking from './ranking/Ranking'
 import Search from './search/Search'
+import MusicPlayer from '@/components/play/MusicPlayer'
 
 import { BrowserRouter as Router, Route, Switch, Redirect, NavLink } from 'react-router-dom'
 
@@ -45,6 +46,7 @@ class App extends Component {
               <Route component={ Recommend }/>
             </Switch>
           </div>
+          <MusicPlayer />
         </div>
       </Router>
     )

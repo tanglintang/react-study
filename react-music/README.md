@@ -81,3 +81,62 @@ function filterSinger (singers) {
 ```
 
 ## prop-types 参数检测
+
+## redux
+`$ yarn add redux react-redux`
+
+> 同 vuex-store
+
+应用中所有的 state 都以一个对象树的形式储存在一个单一的 store 中。 
+- store
+```js
+// 创建 store 并传入 reduces
+const store = createStore(reducers)
+```
+- reduces
+惟一改变 state 的办法是触发 action，一个描述发生什么的对象。为了描述 action 如何改变 state 树，你需要编写 reducers。
+
+Reducer 函数最重要的特征是，它是一个纯函数。也就是说，只要是同样的输入，必定得到同样的输出
+
+Reducer 函数里面不能改变 State，必须返回一个全新的对象
+
+```js
+const initialState = {
+    song: {},
+    songs: [],
+    showStatus: false
+}
+// reduce 传入一个 state, action 
+function songs (songs = initialState.songs, action) {
+    switch (action.type) {
+        case ActionTypes.SET_SONGS:
+            return action.songs
+        case ActionTypes.REMOVE_SONG_FROM_LIST:
+            return songs.filter(song => song.id !== action.id)
+        default:
+            return songs
+    }
+}
+```
+- containers
+container 作为中间 将 state 和 action 处理后 作为 props 传入组件
+
+store.dispatch()是 View 发出 Action 的唯一方法
+
+```js
+const mapStateToProps = (state) => ({
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    changeCurrentSong: (song) => {
+        dispatch()
+    }
+})
+
+// connect 将React组件连接到Redux存储, 返回一个新的，连接的组件类
+// 把 state actions 变为 props 传入组件中
+export default connect(mapStateToProps, mapDispatchToProps)(MiniPlayer)
+
+```
+
+
