@@ -18,6 +18,26 @@
 `import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'`
 Switch : router-view
 
+## 子路由
+```js
+toAlbumDetail (url) {
+    return () => {
+      this.props.history.push({
+        pathname: url
+      })
+    }
+}
+
+<div className="album-wrapper" key={album.mId} onClick={ this.toAlbumDetail(`${match.url + '/' + album.mId}`) }>
+
+const { match } = this.props
+
+<Route path={ `${ match.url + '/:id' }` } component={ Album }></Route>
+```
+`match.url` 得到当前路由路径
+`/:id` 参数
+
+
 ## jsonp 请求配置
 
 ### url 参数拼接
@@ -139,4 +159,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(MiniPlayer)
 
 ```
 
-
+## react-transition-group
+> vue -> <transition>

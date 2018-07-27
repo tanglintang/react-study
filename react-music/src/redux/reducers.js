@@ -1,5 +1,5 @@
 // 返回状态的函数
-import { combineReducers, Reducer } from 'redux'
+import { combineReducers } from 'redux'
 import * as ActionTypes from './actionTypes'
 
 const initialState = {

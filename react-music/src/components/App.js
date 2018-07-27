@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect, NavLink } from 'react
 
 import '@/assets/stylus/reset.styl'
 import logo from '@/assets/images/logo.png'
+import '@/assets/stylus/font.styl'
 import './App.styl'
 
 class App extends Component {

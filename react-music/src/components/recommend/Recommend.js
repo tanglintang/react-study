@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
+import { Route } from 'react-router-dom'
 import { getCarousel, getNewAlbum } from '@/api/recommend'
 import { CODE_SUCCESS } from '../../api/config'
 import * as AlbumModel from '@/model/album'
 import Swiper from 'swiper'
 import Scroll from '@/common/scroll/Scroll'
+import Loading from '@/common/loading/Loading'
 import 'swiper/dist/css/swiper.css'
 import './recommend.styl'
+import Album from '@/containers/Album'
 
 class Recommend extends Component {
   constructor(props) {
@@ -14,7 +17,8 @@ class Recommend extends Component {
     this.state = {
       sliderList: [],
       newAlbums: [],
-      refreshScroll: false
+      refreshScroll: false,
+      loading: true
     }
   }
 
@@ -46,7 +50,8 @@ class Recommend extends Component {
           })
           // console.log(albumList)
           this.setState({
-            newAlbums: albumList
+            newAlbums: albumList,
+            loading: false
           }, () => {
             this.setState({
               refreshScroll: true
@@ -67,7 +72,17 @@ class Recommend extends Component {
     }
   }
 
+  toAlbumDetail (url) {
+    return () => {
+      this.props.history.push({
+        pathname: url
+      })
+    }
+  }
+
   render() {
+
+    const { match } = this.props
 
     const albums = this.state.newAlbums.map(item => {
       // console.log(item)
@@ -75,7 +90,7 @@ class Recommend extends Component {
       const album = AlbumModel.createAlbumByList(item)
 
       return (
-        <div className="album-wrapper" key={album.mId}>
+        <div className="album-wrapper" key={album.mId} onClick={ this.toAlbumDetail(`${match.url + '/' + album.mId}`) }>
           <div className="left">
             <img src={album.img} alt={album.name} width="100%" height="100%" />
           </div>
@@ -116,6 +131,9 @@ class Recommend extends Component {
             </div>
           </div>
         </Scroll>
+        <Loading title="正在加载中" show={ this.state.loading } />
+        {/* /Recommend/123123 */}
+        <Route path={ `${ match.url + '/:id' }` } component={ Album }></Route>
       </div>
     )
   }
