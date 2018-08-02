@@ -1,0 +1,15 @@
+{
+  "name": "umi-app",
+  "version": "1.0.0",
+  "description": "- 内置 react 、react-router\r - 以约定代替，简化代码，\r - pages 目录下的文件即路由，而文件则导出 react 组件",
+  "main": ".umirc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "umi-plugin-datahub": "^0.1.1"
+  }
+}
